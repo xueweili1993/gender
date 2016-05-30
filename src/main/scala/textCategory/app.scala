@@ -119,13 +119,25 @@ object app {
     //val subtracted = text.subtract(jdbc)
 
 
+    val joinOnecolumn = joined
+      .map{case (appId, con)=>
+
+        (appId)
+      }
+    val textOnecolumn = text
+      .map{case (appId, userId)=>
+
+        (appId)
+      }
+
+    val subtracted = textOnecolumn.subtract(joinOnecolumn)
 
     val joinednum = joined.count()
     val textnum = text.count()
-   // val subtractnum = subtracted.count()
-    println ("gender3 "+joinednum)
-    println ("gender3 "+textnum)
-    //println ("gender3 "+subtractnum)
+    val subtractnum = subtracted.count()
+    println ("gender4 "+joinednum)
+    println ("gender4 "+textnum)
+    println ("gender4 "+subtractnum)
 
 
     HDFS.removeFile(savepath)
