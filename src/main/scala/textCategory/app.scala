@@ -56,7 +56,8 @@ object app {
 
     jdbcDF.registerTempTable("app")
 
-    val sqlcmd = "select app_id, category from app where is_updated = 1"
+    //val sqlcmd = "select app_id, category from app where is_updated = 1"
+    val sqlcmd = "select app_id, category from app"
     val jdbc = jdbcDF.sqlContext.sql(sqlcmd)
       .map{x =>
         (x(0).toString,x(1).toString)
