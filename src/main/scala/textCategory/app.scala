@@ -116,16 +116,16 @@ object app {
 
     val joined = text.join(jdbc)
 
-    val subtracted = text.subtract(jdbc)
+    //val subtracted = text.subtract(jdbc)
 
 
 
     val joinednum = joined.count()
     val textnum = text.count()
-    val subtractnum = subtracted.count()
+   // val subtractnum = subtracted.count()
     println ("gender3 "+joinednum)
     println ("gender3 "+textnum)
-    println ("gender3 "+subtractnum)
+    //println ("gender3 "+subtractnum)
 
 
     HDFS.removeFile(savepath)
@@ -134,7 +134,7 @@ object app {
 
     text. saveAsTextFile(savepath)
     jdbc. saveAsTextFile(savepath1)
-    subtracted. saveAsTextFile(savepath2)
+    joined. saveAsTextFile(savepath2)
 
     sc.stop()
   }
