@@ -60,7 +60,8 @@ object app {
     val jdbc = jdbcDF.sqlContext.sql(sqlcmd)
       .map{x =>
         (x(0).toString,x(1).toString)
-    }.cache
+    }.distinct
+      .cache
 
     val text = sc.textFile(hdfspath)
       .flatMap{case line =>
@@ -73,7 +74,7 @@ object app {
 
             (word,userId)
           }
-      }
+      }.distinct
 
     val joined = text.join(jdbc)
 
