@@ -48,7 +48,7 @@ object app {
         val lineArray = line.split(",",2)
         val userId = lineArray(0)
         val items = lineArray(1)
-        items.split(", ")
+        items.replaceAll(" +","").split(",")
           .map{word =>
 
             (word,userId)
