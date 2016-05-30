@@ -24,6 +24,7 @@ object app {
     val hdfspath = "hdfs:///lxw/usertest"
 
     val savepath = "hdfs:///lxw/app"
+    val savepath1 = "hdfs:///lxw/sql"
 
     val hadoopConf = sc.hadoopConfiguration
 
@@ -56,7 +57,7 @@ object app {
       }
 
 
-    /*val sqlContext = new SQLContext(sc)
+    val sqlContext = new SQLContext(sc)
     val jdbcDF = sqlContext.read.format("jdbc").options(
       Map("url" -> "jdbc:mysql://172.31.12.234:3306/koala?user=mosh&password=123456",
         "dbtable" -> "app",
@@ -70,11 +71,13 @@ object app {
     val jdbc = jdbcDF.sqlContext.sql(sqlcmd)
       .map{x =>
         (x(0).toString,x(1).toString)
-    }*/
+    }
 
 
     HDFS.removeFile(savepath)
+    HDFS.removeFile(savepath1)
     text. saveAsTextFile(savepath)
+    text. saveAsTextFile(savepath1)
 
     sc.stop()
   }
