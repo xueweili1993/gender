@@ -14,6 +14,41 @@ import org.apache.spark.sql.SQLContext
 
 object app {
 
+
+
+
+
+  def updatemysql(sc:SparkContext, appList:Array[String])={
+
+
+    val sqlcmd = appList.map{x => "INSERT IGNORE INTO app (app_id, platform) VALUES ('" + x + "', 'ANDROID')"}
+
+
+
+    println("lixuewei log " + sqlcmd)
+    //sql connection
+    val conn = DriverManager.getConnection("jdbc:mysql://172.31.12.234/koala","mosh", "123456")
+
+    if (!conn.isClosed())
+    {
+      println("\tSucceeded connecting to the Database!\n")
+    }
+
+    val stmt = conn.createStatement()
+
+    for(sql <- sqlcmd){
+      println("gyy-log " + sql)
+      stmt.executeUpdate(sql)
+    }
+
+    stmt.close()
+    conn.close()
+  }
+
+
+
+
+
   def main(args:Array[String])={
 
     val conf = new SparkConf()
@@ -25,6 +60,7 @@ object app {
 
     val savepath = "hdfs:///lxw/app"
     val savepath1 = "hdfs:///lxw/sql"
+    val savepath2 = "hdfs:///lxw/sub"
 
     val hadoopConf = sc.hadoopConfiguration
 
@@ -77,7 +113,12 @@ object app {
           }
       }.distinct
 
+
     val joined = text.join(jdbc)
+
+    val subtracted = text.subtract(jdbc)
+
+
 
     val joinednum = joined.count()
     val textnum = text.count()
@@ -87,8 +128,11 @@ object app {
 
     HDFS.removeFile(savepath)
     HDFS.removeFile(savepath1)
+    HDFS.removeFile(savepath2)
+
     text. saveAsTextFile(savepath)
     jdbc. saveAsTextFile(savepath1)
+    subtracted. saveAsTextFile(savepath2)
 
     sc.stop()
   }
