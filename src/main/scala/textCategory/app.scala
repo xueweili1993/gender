@@ -43,18 +43,7 @@ object app {
     hadoopConf.set("fs.s3n.awsSecretAccessKey", awsSecretAccessKey)
 
 
-    val text = sc.textFile(hdfspath)
-      .flatMap{case line =>
 
-        val lineArray = line.split(",",2)
-        val userId = lineArray(0)
-        val items = lineArray(1)
-        items.replaceAll(" +","").split(",")
-          .map{word =>
-
-            (word,userId)
-          }
-      }
 
 
     val sqlContext = new SQLContext(sc)
@@ -71,7 +60,27 @@ object app {
     val jdbc = jdbcDF.sqlContext.sql(sqlcmd)
       .map{x =>
         (x(0).toString,x(1).toString)
-    }
+    }.cache
+
+    val text = sc.textFile(hdfspath)
+      .flatMap{case line =>
+
+        val lineArray = line.split(",",2)
+        val userId = lineArray(0)
+        val items = lineArray(1)
+        items.replaceAll(" +","").split(",")
+          .map{word =>
+
+            (word,userId)
+          }
+      }
+
+    val joined = text.join(jdbc)
+
+    val joinednum = joined.count()
+    val textnum = text.count()
+    println (joinednum)
+    println (textnum)
 
 
     HDFS.removeFile(savepath)
