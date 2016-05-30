@@ -21,7 +21,7 @@ object app {
     val sc = new SparkContext(conf)
 
 
-    val hdfspath = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
+    val hdfspath = "hdfs:///lxw/usertest"
 
     val savepath = "hdfs:///lxw/app"
 
