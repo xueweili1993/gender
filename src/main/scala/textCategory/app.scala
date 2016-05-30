@@ -130,14 +130,18 @@ object app {
         (appId)
       }
 
-    val subtracted = textOnecolumn.subtract(joinOnecolumn)
+    val subtracted = textOnecolumn.subtract(joinOnecolumn).collect()
+    updatemysql(sc:SparkContext, subtracted:Array[String])
 
-    val joinednum = joined.count()
+
+    /*val joinednum = joined.count()
     val textnum = text.count()
     val subtractnum = subtracted.count()
     println ("gender4 "+joinednum)
     println ("gender4 "+textnum)
     println ("gender4 "+subtractnum)
+
+
 
 
     HDFS.removeFile(savepath)
@@ -146,7 +150,7 @@ object app {
 
     text. saveAsTextFile(savepath)
     jdbc. saveAsTextFile(savepath1)
-    joined. saveAsTextFile(savepath2)
+    joined. saveAsTextFile(savepath2)*/
 
     sc.stop()
   }
