@@ -79,8 +79,8 @@ object app {
 
     val joinednum = joined.count()
     val textnum = text.count()
-    println (joinednum)
-    println (textnum)
+    println ("gender "+joinednum)
+    println ("gender "+textnum)
 
 
     HDFS.removeFile(savepath)
