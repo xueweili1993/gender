@@ -57,7 +57,7 @@ object app {
     jdbcDF.registerTempTable("app")
 
     //val sqlcmd = "select app_id, category from app where is_updated = 1"
-    val sqlcmd = "select app_id, category from app"
+    val sqlcmd = "select app_id, category from app where is_available = 1"
     val jdbc = jdbcDF.sqlContext.sql(sqlcmd)
       .map{x =>
         (x(0).toString,x(1).toString)
@@ -81,8 +81,8 @@ object app {
 
     val joinednum = joined.count()
     val textnum = text.count()
-    println ("gender2 "+joinednum)
-    println ("gender2 "+textnum)
+    println ("gender3 "+joinednum)
+    println ("gender3 "+textnum)
 
 
     HDFS.removeFile(savepath)
