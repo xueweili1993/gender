@@ -77,7 +77,7 @@ object app {
     HDFS.removeFile(savepath)
     HDFS.removeFile(savepath1)
     text. saveAsTextFile(savepath)
-    text. saveAsTextFile(savepath1)
+    jdbc. saveAsTextFile(savepath1)
 
     sc.stop()
   }
