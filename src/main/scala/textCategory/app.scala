@@ -1,6 +1,6 @@
 package textCategory
 
-import learn.HDFS
+
 import org.apache.spark.{SparkConf, SparkContext}
 import java.sql.DriverManager
 
