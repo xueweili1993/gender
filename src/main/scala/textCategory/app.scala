@@ -18,7 +18,7 @@ object app {
 
 
 
-  def updatemysql(sc:SparkContext, appList:Array[String])={
+  /*def updatemysql(sc:SparkContext, appList:Array[String])={
 
 
     val sqlcmd = appList.map{x => "INSERT IGNORE INTO app (app_id, platform) VALUES ('" + x + "', 'ANDROID')"}
@@ -46,7 +46,7 @@ object app {
 
     stmt.close()
     conn.close()
-  }
+  }*/
 
 
 
@@ -160,8 +160,8 @@ object app {
     // insert data into sql
 
 
-    val subtracted = text.subtract(jdbc).collect()
-    updatemysql(sc:SparkContext, subtracted:Array[String])
+    //val subtracted = text.subtract(jdbc).collect()
+    //updatemysql(sc:SparkContext, subtracted:Array[String])
 
 
     /*val joinednum = joined.count()
