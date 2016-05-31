@@ -81,7 +81,7 @@ object app {
 
 
 
-
+  // read data from sql
     val sqlContext = new SQLContext(sc)
     val jdbcDF = sqlContext.read.format("jdbc").options(
       Map("url" -> "jdbc:mysql://172.31.12.234:3306/koala?user=mosh&password=123456",
@@ -100,6 +100,8 @@ object app {
     }.distinct
       .cache
 
+
+ // read data from hdfs
     val text = sc.textFile(hdfspath)
       .flatMap{case line =>
 
@@ -116,9 +118,10 @@ object app {
 
     val joined = text.join(jdbc)
 
-    //val subtracted = text.subtract(jdbc)
 
 
+    /*
+    // insert data into sql
     val joinOnecolumn = joined
       .map{case (appId, con)=>
 
@@ -131,7 +134,7 @@ object app {
       }
 
     val subtracted = textOnecolumn.subtract(joinOnecolumn).collect()
-    updatemysql(sc:SparkContext, subtracted:Array[String])
+    updatemysql(sc:SparkContext, subtracted:Array[String])*/
 
 
     /*val joinednum = joined.count()
@@ -139,10 +142,7 @@ object app {
     val subtractnum = subtracted.count()
     println ("gender4 "+joinednum)
     println ("gender4 "+textnum)
-    println ("gender4 "+subtractnum)
-
-
-
+    println ("gender4 "+subtractnum)*/
 
     HDFS.removeFile(savepath)
     HDFS.removeFile(savepath1)
@@ -150,7 +150,7 @@ object app {
 
     text. saveAsTextFile(savepath)
     jdbc. saveAsTextFile(savepath1)
-    joined. saveAsTextFile(savepath2)*/
+    joined. saveAsTextFile(savepath2)
 
     sc.stop()
   }
