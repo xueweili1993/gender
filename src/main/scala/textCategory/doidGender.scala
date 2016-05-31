@@ -22,7 +22,8 @@ object doidGender {
     val hdfspath1 = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
     val hdfspath2 = "hdfs:////gaoy/genderLabeledData/part-00000"
 
-    //val savepath1 = "hdfs:///lxw/"
+    val savepath1 = "hdfs:///lxw/joinedll"
+    val savepath2 = "hdfs:///lxw/ratio"
 
 
     val hadoopConf = sc.hadoopConfiguration
@@ -47,9 +48,10 @@ object doidGender {
 
         val lineArray = first.split(",",2)
 
-        lineArray(0)
+        val userId = lineArray(0)
+        val appIds = lineArray(1).replaceAll(" +","")
 
-
+        (userId, appIds)
       }
 
 
@@ -57,17 +59,36 @@ object doidGender {
       .map{case line=>
 
           val linearray = line.split("\t")
-          linearray(0)
+          val userId = linearray(0)
+          val gender = linearray(1)
+        (userId, gender)
       }
-    val joined = idWithgender.intersection(idWithapp)
+      //.reduceByKey(_+_)
 
-    val appnum= idWithapp.count()
+    val joined = idWithapp.join(idWithgender)
+
+    val fmRatio = joined
+      .map{case (userId,(appId, gender))=>
+
+        (gender,1)
+      }
+      .reduceByKey(_+_)
+
+    /*val appnum= idWithapp.count()
     val gendernum = idWithgender.count()
     val joinnum = joined.count()
 
     println ("lxw1 " + appnum)
     println ("lxw1 " + gendernum)
-    println ("lxw1 " + joinnum)
+    println ("lxw1 " + joinnum)*/
+
+    HDFS.removeFile(savepath1)
+    HDFS.removeFile(savepath2)
+
+    joined.saveAsTextFile(savepath1)
+    fmRatio.saveAsTextFile(savepath2)
+
+    sc.stop()
 
   }
 

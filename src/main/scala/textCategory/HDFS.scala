@@ -1,4 +1,4 @@
-package learn
+package textCategory
 
 
 import org.apache.hadoop.conf._
