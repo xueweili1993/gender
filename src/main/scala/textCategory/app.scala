@@ -25,7 +25,7 @@ object app {
 
 
 
-    println("lixuewei log2 " + sqlcmd.mkString("\t"))
+//    println("lixuewei log2 " + sqlcmd.mkString("\t"))
     //sql connection
     val conn = DriverManager.getConnection("jdbc:mysql://172.31.12.234/koala","mosh", "123456")
 
@@ -57,6 +57,7 @@ object app {
 
 
     val hdfspath = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
+
 
     val savepath = "hdfs:///lxw/app"
     val savepath1 = "hdfs:///lxw/sql"
@@ -105,7 +106,9 @@ object app {
     val text = sc.textFile(hdfspath)
       .flatMap{case line =>
 
-        val lineArray = line.split(",",2)
+        val first = line.replaceAll("\\(|\\)","")
+
+        val lineArray = first.split(",",2)
 //        val userId = lineArray(0)
         val items = lineArray(1)
         items.replaceAll(" +","").split(",")
