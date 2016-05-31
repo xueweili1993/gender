@@ -25,7 +25,7 @@ object app {
 
 
 
-    println("lixuewei log " + sqlcmd.mkString("\t"))
+    println("lixuewei log1 " + sqlcmd.mkString("\t"))
     //sql connection
     val conn = DriverManager.getConnection("jdbc:mysql://172.31.12.234/koala","mosh", "123456")
 
@@ -116,11 +116,37 @@ object app {
       }.distinct
 
 
-    val joined = text.join(jdbc)
+    val joined = text.join(jdbc).cache
+    /*jdbc.unpersist()
+
+    val userCat = joined
+      .map{case (appId, (userId, category))=>
+
+        ((userId, category),1)
+      }
+      .reduceByKey(_+_)
+      .map {case ((userId, category),num)=>
 
 
 
-    /*
+        (userId,(category,num))
+      }
+      .groupByKey()
+      .map {case (userId, ter)=>
+
+
+      }*/
+
+
+
+
+
+
+
+
+
+
+
     // insert data into sql
     val joinOnecolumn = joined
       .map{case (appId, con)=>
@@ -134,7 +160,7 @@ object app {
       }
 
     val subtracted = textOnecolumn.subtract(joinOnecolumn).collect()
-    updatemysql(sc:SparkContext, subtracted:Array[String])*/
+    updatemysql(sc:SparkContext, subtracted:Array[String])
 
 
     /*val joinednum = joined.count()
