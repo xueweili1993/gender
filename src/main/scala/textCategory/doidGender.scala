@@ -50,23 +50,24 @@ object doidGender {
         lineArray(0)
 
 
-      }.distinct
+      }
+
 
     val idWithgender = sc.textFile(hdfspath2)
       .map{case line=>
 
-          val linearray = line.split("/t")
+          val linearray = line.split("\t")
           linearray(0)
-      }.distinct
+      }
     val joined = idWithgender.intersection(idWithapp)
 
     val appnum= idWithapp.count()
     val gendernum = idWithgender.count()
     val joinnum = joined.count()
 
-    println ("lxw " + appnum)
-    println ("lxw " + gendernum)
-    println ("lxw " + joinnum)
+    println ("lxw1 " + appnum)
+    println ("lxw1 " + gendernum)
+    println ("lxw1 " + joinnum)
 
   }
 
