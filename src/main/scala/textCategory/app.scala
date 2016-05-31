@@ -25,6 +25,9 @@ object app {
 
 
 
+    println("lixuewei: total " + sqlcmd.size)
+
+
 //    println("lixuewei log2 " + sqlcmd.mkString("\t"))
     //sql connection
     val conn = DriverManager.getConnection("jdbc:mysql://172.31.12.234/koala","mosh", "123456")
