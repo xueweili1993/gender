@@ -18,7 +18,7 @@ object app {
 
 
 
-  /*def updatemysql(sc:SparkContext, appList:Array[String])={
+  def updatemysql(sc:SparkContext, appList:Array[String])={
 
 
     val sqlcmd = appList.map{x => "INSERT IGNORE INTO app (app_id, platform) VALUES ('" + x + "', 'ANDROID')"}
@@ -46,7 +46,7 @@ object app {
 
     stmt.close()
     conn.close()
-  }*/
+  }
 
 
 
@@ -147,18 +147,18 @@ object app {
 
 
     val subtracted = text.subtract(jdbc)
-//      .collect()
-//    updatemysql(sc:SparkContext, subtracted:Array[String])
+      .collect()
+    updatemysql(sc:SparkContext, subtracted:Array[String])
 
 
 
     //HDFS.removeFile(savepath)
     //HDFS.removeFile(savepath1)
-    HDFS.removeFile(savepath2)
+    //HDFS.removeFile(savepath2)
 
     //text. saveAsTextFile(savepath)
     //jdbc. saveAsTextFile(savepath1)
-    subtracted. saveAsTextFile(savepath2)
+    //subtracted. saveAsTextFile(savepath2)
 
     sc.stop()
   }
