@@ -25,10 +25,10 @@ object app {
 
 
 
-    println("lixuewei: total " + sqlcmd.size)
+    //println("lixuewei: total " + sqlcmd.size)
 
 
-//    println("lixuewei log2 " + sqlcmd.mkString("\t"))
+    println("lixuewei log3 " + sqlcmd.mkString("\t"))
     //sql connection
     val conn = DriverManager.getConnection("jdbc:mysql://172.31.12.234/koala","mosh", "123456")
 
@@ -59,7 +59,8 @@ object app {
     val sc = new SparkContext(conf)
 
 
-    val hdfspath = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
+   // val hdfspath = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
+    val hdfspath = "hdfs:///lxw/usertest"
 
 
     val savepath = "hdfs:///lxw/app"
@@ -117,6 +118,9 @@ object app {
         items.replaceAll(" +","").split(",")
 
       }.distinct
+
+
+
 
 
     //val joined = text.join(jdbc).cache
