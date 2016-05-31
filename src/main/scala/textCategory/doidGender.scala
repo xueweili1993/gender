@@ -65,30 +65,95 @@ object doidGender {
       }
       //.reduceByKey(_+_)
 
-    val joined = idWithapp.join(idWithgender)
+    val joined = idWithapp.join(idWithgender).cache()
 
-    val fmRatio = joined
-      .map{case (userId,(appId, gender))=>
-
-        (gender,1)
+    val female = joined
+      .filter{case (userid, (appid,gender))=>
+        gender == "female"
       }
-      .reduceByKey(_+_)
+      .sample(false, 0.001)
 
-    /*val appnum= idWithapp.count()
-    val gendernum = idWithgender.count()
-    val joinnum = joined.count()
 
-    println ("lxw1 " + appnum)
-    println ("lxw1 " + gendernum)
-    println ("lxw1 " + joinnum)*/
+    val male = joined.filter{case (userid,(appid, gender))=>
+      gender == "male"
+    }.sample(false, 0.001)
 
-    HDFS.removeFile(savepath1)
-    HDFS.removeFile(savepath2)
 
-    joined.saveAsTextFile(savepath1)
-    fmRatio.saveAsTextFile(savepath2)
 
-    sc.stop()
+
+    val appSetmale = male
+      .flatMap{case (userId, (appid, gender)) =>
+
+
+          val appArray= appid.split(",")
+          appArray
+
+      }.distinct
+    val appSet = female
+      .flatMap{case (userId, (appid, gender)) =>
+
+
+        val appArray= appid.split(",")
+        appArray
+
+      }.distinct
+      .union (appSetmale)
+
+
+    val  pathAppId = "hdfs:///lxw/AppId/"
+    HDFS.removeFile(pathAppId)
+    appSet.repartition(1).saveAsTextFile(pathAppId)
+
+
+    val pathFemale = "hdfs:///lxw/female/"
+    HDFS.removeFile(pathFemale)
+    female
+      .map{case (x, (y, z)) =>
+        x + "\t" + y + "\t" + z
+      }
+      .repartition(1).saveAsTextFile(pathFemale)
+
+
+    val pathMale = "hdfs:///lxw/male/"
+    HDFS.removeFile(pathMale)
+    male
+      .map{case (x, (y, z)) =>
+        x + "\t" + y + "\t" + z
+      }
+      .repartition(1).saveAsTextFile(pathMale)
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+
+
+
+//    /*val appnum= idWithapp.count()
+//    val gendernum = idWithgender.count()
+//    val joinnum = joined.count()
+//
+//    println ("lxw1 " + appnum)
+//    println ("lxw1 " + gendernum)
+//    println ("lxw1 " + joinnum)*/
+//
+//    HDFS.removeFile(savepath1)
+//    HDFS.removeFile(savepath2)
+//
+//    joined.saveAsTextFile(savepath1)
+//    fmRatio.saveAsTextFile(savepath2)
+//
+//    sc.stop()
 
   }
 
