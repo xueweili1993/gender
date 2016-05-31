@@ -93,10 +93,10 @@ object app {
     jdbcDF.registerTempTable("app")
 
     //val sqlcmd = "select app_id, category from app where is_updated = 1"
-    val sqlcmd = "select app_id, category from app where is_available = 1"
+    val sqlcmd = "select app_id from app where is_available = 1"
     val jdbc = jdbcDF.sqlContext.sql(sqlcmd)
       .map{x =>
-        (x(0).toString,x(1).toString)
+        x(0).toString
     }.distinct
       .cache
 
@@ -106,17 +106,14 @@ object app {
       .flatMap{case line =>
 
         val lineArray = line.split(",",2)
-        val userId = lineArray(0)
+//        val userId = lineArray(0)
         val items = lineArray(1)
         items.replaceAll(" +","").split(",")
-          .map{word =>
 
-            (word,userId)
-          }
       }.distinct
 
 
-    val joined = text.join(jdbc).cache
+    //val joined = text.join(jdbc).cache
     /*jdbc.unpersist()
 
     val userCat = joined
@@ -148,18 +145,9 @@ object app {
 
 
     // insert data into sql
-    val joinOnecolumn = joined
-      .map{case (appId, con)=>
 
-        (appId)
-      }
-    val textOnecolumn = text
-      .map{case (appId, userId)=>
 
-        (appId)
-      }
-
-    val subtracted = textOnecolumn.subtract(joinOnecolumn).collect()
+    val subtracted = text.subtract(jdbc).collect()
     updatemysql(sc:SparkContext, subtracted:Array[String])
 
 
