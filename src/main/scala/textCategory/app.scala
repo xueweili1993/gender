@@ -121,6 +121,11 @@ object app {
         items.replaceAll(" +","").split(",")
 
       }.distinct
+      .filter{case item =>
+
+          item.length<100
+
+      }
 
 
 
