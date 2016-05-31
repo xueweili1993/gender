@@ -56,7 +56,7 @@ object app {
     val sc = new SparkContext(conf)
 
 
-    val hdfspath = "hdfs:///lxw/usertest"
+    val hdfspath = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
 
     val savepath = "hdfs:///lxw/app"
     val savepath1 = "hdfs:///lxw/sql"
@@ -170,13 +170,13 @@ object app {
     println ("gender4 "+textnum)
     println ("gender4 "+subtractnum)*/
 
-    HDFS.removeFile(savepath)
+    /*HDFS.removeFile(savepath)
     HDFS.removeFile(savepath1)
     HDFS.removeFile(savepath2)
 
     text. saveAsTextFile(savepath)
     jdbc. saveAsTextFile(savepath1)
-    joined. saveAsTextFile(savepath2)
+    joined. saveAsTextFile(savepath2)*/
 
     sc.stop()
   }
