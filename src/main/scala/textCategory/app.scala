@@ -25,10 +25,10 @@ object app {
 
 
 
-    //println("lixuewei: total " + sqlcmd.size)
+    println("lixuewei: total " + sqlcmd.size)
 
 
-    println("lixuewei log3 " + sqlcmd.mkString("\t"))
+    //println("lixuewei log3 " + sqlcmd.mkString("\t"))
     //sql connection
     val conn = DriverManager.getConnection("jdbc:mysql://172.31.12.234/koala","mosh", "123456")
 
@@ -98,12 +98,15 @@ object app {
     jdbcDF.registerTempTable("app")
 
     //val sqlcmd = "select app_id, category from app where is_updated = 1"
-    val sqlcmd = "select app_id from app where is_available = 1"
+    val sqlcmd = "select app_id from app"
     val jdbc = jdbcDF.sqlContext.sql(sqlcmd)
       .map{x =>
         x(0).toString
     }.distinct
-      .cache
+
+
+
+//      .cache
 
 
  // read data from hdfs
@@ -168,13 +171,13 @@ object app {
     println ("gender4 "+textnum)
     println ("gender4 "+subtractnum)*/
 
-    /*HDFS.removeFile(savepath)
+    //HDFS.removeFile(savepath)
     HDFS.removeFile(savepath1)
-    HDFS.removeFile(savepath2)
+    //HDFS.removeFile(savepath2)
 
-    text. saveAsTextFile(savepath)
+    //text. saveAsTextFile(savepath)
     jdbc. saveAsTextFile(savepath1)
-    joined. saveAsTextFile(savepath2)*/
+    //joined. saveAsTextFile(savepath2)*/
 
     sc.stop()
   }
