@@ -59,8 +59,8 @@ object app {
     val sc = new SparkContext(conf)
 
 
-   // val hdfspath = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
-    val hdfspath = "hdfs:///lxw/usertest"
+    val hdfspath = "hdfs:///gaoy/duid2AppsWithLabel/part-00000"
+    //val hdfspath = "hdfs:///lxw/usertest"
 
 
     val savepath = "hdfs:///lxw/app"
@@ -126,26 +126,7 @@ object app {
 
 
 
-    //val joined = text.join(jdbc).cache
-    /*jdbc.unpersist()
 
-    val userCat = joined
-      .map{case (appId, (userId, category))=>
-
-        ((userId, category),1)
-      }
-      .reduceByKey(_+_)
-      .map {case ((userId, category),num)=>
-
-
-
-        (userId,(category,num))
-      }
-      .groupByKey()
-      .map {case (userId, ter)=>
-
-
-      }*/
 
 
 
@@ -160,24 +141,19 @@ object app {
     // insert data into sql
 
 
-    //val subtracted = text.subtract(jdbc).collect()
-    //updatemysql(sc:SparkContext, subtracted:Array[String])
+    val subtracted = text.subtract(jdbc)
+//      .collect()
+//    updatemysql(sc:SparkContext, subtracted:Array[String])
 
 
-    /*val joinednum = joined.count()
-    val textnum = text.count()
-    val subtractnum = subtracted.count()
-    println ("gender4 "+joinednum)
-    println ("gender4 "+textnum)
-    println ("gender4 "+subtractnum)*/
 
     //HDFS.removeFile(savepath)
-    HDFS.removeFile(savepath1)
-    //HDFS.removeFile(savepath2)
+    //HDFS.removeFile(savepath1)
+    HDFS.removeFile(savepath2)
 
     //text. saveAsTextFile(savepath)
-    jdbc. saveAsTextFile(savepath1)
-    //joined. saveAsTextFile(savepath2)*/
+    //jdbc. saveAsTextFile(savepath1)
+    subtracted. saveAsTextFile(savepath2)
 
     sc.stop()
   }
