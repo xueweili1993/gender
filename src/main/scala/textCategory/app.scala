@@ -128,21 +128,6 @@ object app {
       }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // insert data into sql
 
 
